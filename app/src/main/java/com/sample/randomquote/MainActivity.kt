@@ -1,15 +1,12 @@
 package com.sample.randomquote
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,13 +14,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var progressBar: View
     lateinit var quoteTextView: TextView
     lateinit var quoteAuthorTextView: TextView
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initUi()
-        refreshQuote()
+        if (savedInstanceState == null)
+            viewModel.refreshQuote()
     }
 
     private fun initUi() {
@@ -33,40 +32,17 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
 
         refreshButton.setOnClickListener {
-            refreshQuote()
+            viewModel.refreshQuote()
         }
-    }
-    /**
-     * Get a random quote and display it to the user
-     */
-    private fun refreshQuote() {
-        val quoteGenerator = QuoteGenerator()
 
-        progressBar.visibility = View.VISIBLE
-        refreshButton.isEnabled = false
+        viewModel.quote.observe(this, Observer { quote ->
+            quoteTextView.text = quote.quote
+            quoteAuthorTextView.text = quote.author
+        })
 
-        Executors.defaultThreadFactory().newThread {
-            quoteGenerator.getRandomQuote(object : QuoteCallback {
-                override fun onSuccess(quote: Quote) {
-                    Log.d("MainActivity", "$quote")
-
-                    runOnUiThread {
-                        progressBar.visibility = View.INVISIBLE
-                        refreshButton.isEnabled = true
-
-                        quoteTextView.text = quote.quote
-                        quoteAuthorTextView.text = quote.author
-                    }
-                }
-
-                override fun onFailure(error: Throwable) {
-                    progressBar.visibility = View.INVISIBLE
-                    refreshButton.isEnabled = true
-
-                    error.printStackTrace()
-                }
-
-            })
-        }.start()
+        viewModel.loading.observe(this, { loading ->
+            progressBar.visibility = if (loading) View.VISIBLE else View.INVISIBLE
+            refreshButton.isEnabled = !loading
+        })
     }
 }
