@@ -1,6 +1,7 @@
 package com.sample.randomquote
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -21,8 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         initUi()
-        if (savedInstanceState == null)
-            viewModel.refreshQuote()
+        viewModel.refreshQuote()
     }
 
     private fun initUi() {
@@ -44,5 +44,10 @@ class MainActivity : AppCompatActivity() {
             progressBar.visibility = if (loading) View.VISIBLE else View.INVISIBLE
             refreshButton.isEnabled = !loading
         })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        viewModel.saveState()
+        super.onSaveInstanceState(outState)
     }
 }
