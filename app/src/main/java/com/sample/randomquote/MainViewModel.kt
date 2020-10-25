@@ -1,10 +1,7 @@
 package com.sample.randomquote
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import java.util.concurrent.Executors
+import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 
 class MainViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -19,20 +16,11 @@ class MainViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
 
             _loading.postValue(true)
 
-            Executors.defaultThreadFactory().newThread {
-                quoteGenerator.getRandomQuote(object : QuoteCallback {
-                    override fun onSuccess(quote: Quote) {
-                        _loading.postValue(false)
-                        _quote.postValue(quote)
-                    }
-
-                    override fun onFailure(error: Throwable) {
-                        _loading.postValue(false)
-
-                        error.printStackTrace()
-                    }
-                })
-            }.start()
+            viewModelScope.launch {
+                val quote = quoteGenerator.getRandomQuote()
+                _loading.postValue(false)
+                _quote.postValue(quote)
+            }
         }
     }
 
@@ -43,7 +31,7 @@ class MainViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
      * previous state
      */
     private fun loadState(): Boolean {
-        if (!savedStateHandle.contains(QUOTE) && !savedStateHandle.contains(QUOTE_AUTHOR)){
+        if (!savedStateHandle.contains(QUOTE) && !savedStateHandle.contains(QUOTE_AUTHOR)) {
             return false
         }
 

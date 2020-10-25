@@ -1,17 +1,16 @@
 package com.sample.randomquote
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 class QuoteGenerator {
-    fun getRandomQuote(callback: QuoteCallback) {
-        Thread.sleep(5_000)
-
-        val index = quotes.indices.random()
-        callback.onSuccess(quotes[index])
+    suspend fun getRandomQuote(): Quote {
+        return withContext(Dispatchers.IO) {
+            Thread.sleep(5_000)
+            val index = quotes.indices.random()
+            quotes[index]
+        }
     }
-}
-
-interface QuoteCallback {
-    fun onSuccess(quote: Quote)
-    fun onFailure(error: Throwable)
 }
 
 
