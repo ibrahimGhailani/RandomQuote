@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sample.randomquote.Quote
 import com.sample.randomquote.R
@@ -14,6 +15,7 @@ class QuoteDetailsFragment : BottomSheetDialogFragment() {
     lateinit var quote: Quote
     lateinit var quoteAuthorTextView: TextView
     lateinit var quoteTextView: TextView
+    private val args: QuoteDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,17 +32,9 @@ class QuoteDetailsFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            it.getParcelable<Quote>(ARG_QUOTE)?.let { quote ->
-                this.quote = quote
-            }
-        }
+        this.quote = args.quote
 
         quoteTextView.text = quote.quote
         quoteAuthorTextView.text = quote.author
-    }
-
-    companion object {
-        const val ARG_QUOTE = "quote"
     }
 }
