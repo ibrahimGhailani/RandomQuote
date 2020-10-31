@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sample.randomquote.QuoteGenerator
 import com.sample.randomquote.R
+import com.sample.randomquote.quotedetails.QuoteDetailsFragment
 
 class QuoteListFragment : Fragment() {
 
@@ -16,16 +17,14 @@ class QuoteListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_quote_list_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_quote_list, container, false)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = QuoteRecyclerViewAdapter(QuoteGenerator.quotes)
+        return view.findViewById<RecyclerView>(R.id.list).apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = QuoteRecyclerViewAdapter(QuoteGenerator.quotes) { quote ->
+                QuoteDetailsFragment.newInstance(quote).show(activity?.supportFragmentManager!!, null)
             }
         }
-        return view
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.sample.randomquote
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -48,8 +50,9 @@ class QuoteGenerator {
 }
 
 
+@Parcelize
 data class Quote(
     val author: String,
     val quote: String
-)
+) : Parcelable
 
