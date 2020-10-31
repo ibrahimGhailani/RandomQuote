@@ -42,13 +42,5 @@ class QuoteDetailsFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val ARG_QUOTE = "quote"
-
-        fun newInstance(quote: Quote): QuoteDetailsFragment {
-            return QuoteDetailsFragment().apply {
-                val bundle = Bundle()
-                bundle.putParcelable(ARG_QUOTE, quote)
-                arguments = bundle
-            }
-        }
     }
 }

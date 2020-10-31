@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/quoteListFragment">
+
+    <fragment
+        android:id="@+id/quoteListFragment"
+        android:name="com.sample.randomquote.quotelist.QuoteListFragment"
+        android:label="fragment_quote_list"
+        tools:layout="@layout/fragment_quote_list" >
+        <action
+            android:id="@+id/action_quoteListFragment_to_quoteDetailsFragment"
+            app:destination="@id/quoteDetailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/quoteDetailsFragment"
+        android:name="com.sample.randomquote.quotedetails.QuoteDetailsFragment"
+        tools:layout="@layout/fragment_quote_details"
+        android:label="QuoteDetailsFragment" >
+        <argument
+            android:name="quote"
+            app:argType="com.sample.randomquote.Quote" />
+    </dialog>
+</navigation>
