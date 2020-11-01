@@ -8,14 +8,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.sample.randomquote.Quote
 import com.sample.randomquote.R
 
 class QuoteSummaryFragment : Fragment() {
-    private lateinit var authorTextView: EditText
+
+    private lateinit var authorTextView: TextView
     private lateinit var quoteTextView: TextView
     private lateinit var saveButton: Button
     private lateinit var quote: Quote
+
+    private val args: QuoteSummaryFragmentArgs by navArgs()
 
 
     override fun onCreateView(
@@ -33,12 +37,17 @@ class QuoteSummaryFragment : Fragment() {
         authorTextView = view.findViewById(R.id.quote_author)
         saveButton = view.findViewById(R.id.save_button)
 
+        quote = Quote(
+            author = args.author,
+            quote = args.quote
+        )
+
         populateUi()
 
     }
 
     private fun populateUi() {
-        //TODO: Get quote details from args and display them to the user
-
+        quoteTextView.text = quote.quote
+        authorTextView.text = quote.author
     }
 }

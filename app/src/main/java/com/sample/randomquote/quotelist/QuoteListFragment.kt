@@ -31,7 +31,6 @@ class QuoteListFragment : Fragment() {
         }
 
         view.findViewById<FloatingActionButton>(R.id.add_button).setOnClickListener {
-            //TODO: Navigate to add quote flow
             findNavController().navigate(
                 QuoteListFragmentDirections.actionQuoteListFragmentToAddAuthorFragment()
             )

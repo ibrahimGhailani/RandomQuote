@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.sample.randomquote.R
 
 class AddAuthorFragment : Fragment() {
@@ -28,7 +29,11 @@ class AddAuthorFragment : Fragment() {
         nextButton = view.findViewById(R.id.next_button)
 
         nextButton.setOnClickListener {
-            //TODO: Navigate to [AddQuoteFragment] and pass author
+            findNavController().navigate(
+                AddAuthorFragmentDirections.actionAddAuthorFragmentToAddQuoteFragment(
+                    author = authorEditText.text.toString()
+                )
+            )
         }
     }
 }

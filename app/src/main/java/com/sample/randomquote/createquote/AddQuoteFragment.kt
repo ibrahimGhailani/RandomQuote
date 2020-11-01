@@ -6,12 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.sample.randomquote.R
 
 class AddQuoteFragment : Fragment() {
+
     lateinit var quoteEditText: EditText
+    lateinit var authorTextView: TextView
     lateinit var nextButton: Button
+
+    private val args: AddQuoteFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,9 +32,17 @@ class AddQuoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         quoteEditText = view.findViewById(R.id.quote_input)
         nextButton = view.findViewById(R.id.next_button)
+        authorTextView = view.findViewById(R.id.author_text_view)
+
+        authorTextView.text = args.author
 
         nextButton.setOnClickListener {
-            //TODO: Navigate to [QuoteSummaryFragment] and pass author and quote
+            findNavController().navigate(
+                AddQuoteFragmentDirections.actionAddQuoteFragmentToQuoteSummaryFragment(
+                    author = args.author,
+                    quote = quoteEditText.text.toString()
+                )
+            )
         }
     }
 }

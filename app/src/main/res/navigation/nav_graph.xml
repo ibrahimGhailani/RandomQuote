@@ -29,5 +29,31 @@
     <fragment
         android:id="@+id/addAuthorFragment"
         android:name="com.sample.randomquote.createquote.AddAuthorFragment"
-        android:label="AddAuthorFragment" />
+        android:label="AddAuthorFragment" >
+        <action
+            android:id="@+id/action_addAuthorFragment_to_addQuoteFragment"
+            app:destination="@id/addQuoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuoteFragment"
+        android:name="com.sample.randomquote.createquote.AddQuoteFragment"
+        android:label="AddQuoteFragment" >
+        <argument
+            android:name="author"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addQuoteFragment_to_quoteSummaryFragment"
+            app:destination="@id/quoteSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quoteSummaryFragment"
+        android:name="com.sample.randomquote.createquote.QuoteSummaryFragment"
+        android:label="QuoteSummaryFragment" >
+        <argument
+            android:name="author"
+            app:argType="string" />
+        <argument
+            android:name="quote"
+            app:argType="string" />
+    </fragment>
 </navigation>
