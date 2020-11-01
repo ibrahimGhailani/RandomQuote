@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_quoteListFragment_to_quoteDetailsFragment"
             app:destination="@id/quoteDetailsFragment" />
+        <action
+            android:id="@+id/action_quoteListFragment_to_addAuthorFragment"
+            app:destination="@id/addAuthorFragment" />
     </fragment>
     <dialog
         android:id="@+id/quoteDetailsFragment"
@@ -23,4 +26,34 @@
             android:name="quote"
             app:argType="com.sample.randomquote.Quote" />
     </dialog>
+    <fragment
+        android:id="@+id/addAuthorFragment"
+        android:name="com.sample.randomquote.createquote.AddAuthorFragment"
+        android:label="AddAuthorFragment" >
+        <action
+            android:id="@+id/action_addAuthorFragment_to_addQuoteFragment"
+            app:destination="@id/addQuoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuoteFragment"
+        android:name="com.sample.randomquote.createquote.AddQuoteFragment"
+        android:label="AddQuoteFragment" >
+        <argument
+            android:name="author"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_addQuoteFragment_to_quoteSummaryFragment"
+            app:destination="@id/quoteSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quoteSummaryFragment"
+        android:name="com.sample.randomquote.createquote.QuoteSummaryFragment"
+        android:label="QuoteSummaryFragment" >
+        <argument
+            android:name="author"
+            app:argType="string" />
+        <argument
+            android:name="quote"
+            app:argType="string" />
+    </fragment>
 </navigation>
