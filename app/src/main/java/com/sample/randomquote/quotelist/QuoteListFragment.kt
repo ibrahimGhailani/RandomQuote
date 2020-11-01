@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.sample.randomquote.QuoteGenerator
 import com.sample.randomquote.R
-import com.sample.randomquote.quotedetails.QuoteDetailsFragment
+import com.sample.randomquote.quotedetails.QuoteDetailsFragment.Companion.ARG_QUOTE
 
 class QuoteListFragment : Fragment() {
 
@@ -22,13 +23,14 @@ class QuoteListFragment : Fragment() {
         return view.findViewById<RecyclerView>(R.id.list).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = QuoteRecyclerViewAdapter(QuoteGenerator.quotes) { quote ->
-                QuoteDetailsFragment.newInstance(quote).show(activity?.supportFragmentManager!!, null)
+                val bundle = Bundle().apply {
+                    putParcelable(ARG_QUOTE, quote)
+                }
+                findNavController().navigate(
+                    R.id.action_quoteListFragment_to_quoteDetailsFragment,
+                    bundle
+                )
             }
         }
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = QuoteListFragment()
     }
 }
