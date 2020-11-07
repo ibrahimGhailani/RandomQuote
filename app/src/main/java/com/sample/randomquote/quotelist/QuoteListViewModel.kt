@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.sample.randomquote.Quote
 import com.sample.randomquote.QuoteRepository
 import com.sample.randomquote.ServiceLocator
-import com.sample.randomquote.database.QuoteEntity
 import kotlinx.coroutines.launch
 
 class QuoteListViewModel : ViewModel() {
@@ -19,9 +18,9 @@ class QuoteListViewModel : ViewModel() {
             list.map { Quote(author = it.author, quote = it.quote) }
         }
 
-    fun insertQuote() {
+    fun refreshQuotes() {
         viewModelScope.launch {
-            quoteRepository.insertQuote(QuoteEntity(100, "FAKE QUOTE", "FAKE AUTHOR"))
+            quoteRepository.refreshQuotes()
         }
     }
 }
