@@ -1,18 +1,19 @@
 package com.sample.randomquote.quotelist
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.sample.randomquote.Quote
 import com.sample.randomquote.R
+import com.sample.randomquote.database.QuoteEntity
 
 /**
- * [RecyclerView.Adapter] that can display a [Quote].
+ * [RecyclerView.Adapter] that can display a [QuoteEntity].
  */
 class QuoteRecyclerViewAdapter(
-    private val quotes: ArrayList<Quote>,
+    private val quotes: ArrayList<Quote> = arrayListOf(),
     private val doOnItemClicked: (Quote) -> Unit
 ) : RecyclerView.Adapter<QuoteRecyclerViewAdapter.ViewHolder>() {
 
@@ -29,6 +30,12 @@ class QuoteRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int = quotes.size
+
+    fun insertQuotes(newQuotes: List<Quote>) {
+        this.quotes.clear()
+        this.quotes.addAll(newQuotes)
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val root: View = view.findViewById(R.id.root)
