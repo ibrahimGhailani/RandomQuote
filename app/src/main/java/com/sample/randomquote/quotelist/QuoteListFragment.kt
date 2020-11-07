@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,7 @@ class QuoteListFragment : Fragment() {
         }
 
         view.findViewById<FloatingActionButton>(R.id.add_button).setOnClickListener {
-            viewModel.insertQuote()
+            findNavController().navigate(QuoteListFragmentDirections.actionQuoteListFragmentToAddAuthorFragment())
         }
         return view
     }
@@ -44,6 +45,7 @@ class QuoteListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initializeObservers()
+        viewModel.refreshQuotes()
     }
 
     private fun initializeObservers() {

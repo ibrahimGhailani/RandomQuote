@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.sample.randomquote.Quote
 import com.sample.randomquote.R
@@ -18,6 +20,7 @@ class QuoteSummaryFragment : Fragment() {
     private lateinit var saveButton: Button
     private lateinit var quote: Quote
 
+    private val viewModel: CreateQuoteViewModel by viewModels()
     private val args: QuoteSummaryFragmentArgs by navArgs()
 
 
@@ -44,7 +47,11 @@ class QuoteSummaryFragment : Fragment() {
         populateUi()
 
         saveButton.setOnClickListener {
-            TODO("Save quote to database and navigate to quote list")
+            viewModel.createQuote(
+                author = args.author,
+                quote = args.quote
+            )
+            findNavController().navigate(QuoteSummaryFragmentDirections.actionQuoteSummaryFragmentToQuoteListFragment())
         }
 
     }

@@ -55,5 +55,10 @@
         <argument
             android:name="quote"
             app:argType="string" />
+        <action
+            android:id="@+id/action_quoteSummaryFragment_to_quoteListFragment"
+            app:destination="@id/quoteListFragment"
+            app:popUpTo="@id/quoteListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
