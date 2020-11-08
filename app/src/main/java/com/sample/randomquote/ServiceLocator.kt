@@ -2,7 +2,10 @@ package com.sample.randomquote
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.sample.randomquote.database.QuoteDatabase
+import com.sample.randomquote.database.QuoteEntity
 import com.sample.randomquote.network.QuoteRemoteSource
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,6 +17,9 @@ object ServiceLocator {
     lateinit var db: QuoteDatabase
     lateinit var retrofit: Retrofit
     private lateinit var quoteRemoteSource: QuoteRemoteSource
+    val quoteRepository: QuoteRepository by lazy {
+        QuoteRepository(db.quoteDao(), quoteRemoteSource)
+    }
 
     fun init(app: App) {
         this.app = app
@@ -46,10 +52,14 @@ object ServiceLocator {
             context,
             QuoteDatabase::class.java,
             "quote_db"
-        ).fallbackToDestructiveMigration().build()
+        ).addMigrations(MIGRATION_1_2).build()
     }
 
-    val quoteRepository: QuoteRepository by lazy {
-        QuoteRepository(db.quoteDao(), quoteRemoteSource)
+
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE ${QuoteEntity.TABLE_NAME} ADD COLUMN rating REAL DEFAULT null")
+        }
     }
+
 }

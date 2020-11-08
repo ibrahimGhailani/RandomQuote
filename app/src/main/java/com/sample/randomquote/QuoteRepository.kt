@@ -26,7 +26,8 @@ class QuoteRepository(
                             QuoteEntity(
                                 id = it.id,
                                 author = it.author,
-                                quote = it.quote
+                                quote = it.quote,
+                                rating = it.rating
                             )
                         }.toTypedArray()
                     )
